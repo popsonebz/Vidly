@@ -42,3 +42,5 @@ Add your sql inserts statements and run:
 ```
 dotnet ef database update
 ```
+
+10. Adding Constraint to fields using annontations
