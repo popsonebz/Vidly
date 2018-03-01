@@ -8,17 +8,17 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using Vidly.Data;
 
-namespace Vidly.Data.Migrations
+namespace Vidly.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180301050441_added customers table migration")]
-    partial class addedcustomerstablemigration
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -38,7 +38,8 @@ namespace Vidly.Data.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -172,7 +173,8 @@ namespace Vidly.Data.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -182,11 +184,32 @@ namespace Vidly.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("IsSubscribedToNewsLetter");
+
+                    b.Property<byte>("MembershipTypeId");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MembershipTypeId");
+
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("Vidly.Models.Customers.MembershipType", b =>
+                {
+                    b.Property<byte>("Id");
+
+                    b.Property<byte>("DiscountRate");
+
+                    b.Property<byte>("DurationInMonths");
+
+                    b.Property<short>("SignUpFee");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MembershipType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -231,6 +254,14 @@ namespace Vidly.Data.Migrations
                     b.HasOne("Vidly.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Vidly.Models.Customers.Customer", b =>
+                {
+                    b.HasOne("Vidly.Models.Customers.MembershipType", "MembershipType")
+                        .WithMany()
+                        .HasForeignKey("MembershipTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
