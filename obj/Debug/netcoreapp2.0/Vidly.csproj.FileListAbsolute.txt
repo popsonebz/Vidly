@@ -1,0 +1,12 @@
+/Users/popoolaebenezer/Projects/Fresh/Vidly/bin/Debug/netcoreapp2.0/app.db
+/Users/popoolaebenezer/Projects/Fresh/Vidly/bin/Debug/netcoreapp2.0/Vidly.deps.json
+/Users/popoolaebenezer/Projects/Fresh/Vidly/bin/Debug/netcoreapp2.0/Vidly.runtimeconfig.json
+/Users/popoolaebenezer/Projects/Fresh/Vidly/bin/Debug/netcoreapp2.0/Vidly.runtimeconfig.dev.json
+/Users/popoolaebenezer/Projects/Fresh/Vidly/bin/Debug/netcoreapp2.0/Vidly.dll
+/Users/popoolaebenezer/Projects/Fresh/Vidly/bin/Debug/netcoreapp2.0/Vidly.pdb
+/Users/popoolaebenezer/Projects/Fresh/Vidly/obj/Debug/netcoreapp2.0/Vidly.csproj.CoreCompileInputs.cache
+/Users/popoolaebenezer/Projects/Fresh/Vidly/obj/Debug/netcoreapp2.0/UserSecretsAssemblyInfo.cs
+/Users/popoolaebenezer/Projects/Fresh/Vidly/obj/Debug/netcoreapp2.0/Vidly.AssemblyInfoInputs.cache
+/Users/popoolaebenezer/Projects/Fresh/Vidly/obj/Debug/netcoreapp2.0/Vidly.AssemblyInfo.cs
+/Users/popoolaebenezer/Projects/Fresh/Vidly/obj/Debug/netcoreapp2.0/Vidly.dll
+/Users/popoolaebenezer/Projects/Fresh/Vidly/obj/Debug/netcoreapp2.0/Vidly.pdb
