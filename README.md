@@ -37,4 +37,8 @@ note: membershipid is automatically detected as a forien key while membershiptyp
 dotnet ef migrations add "Populate database"
 ```
 This creates a migration file.
-Add your sql inserts statements
+Add your sql inserts statements and run:
+
+```
+dotnet ef database update
+```
