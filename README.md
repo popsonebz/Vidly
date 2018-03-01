@@ -27,3 +27,7 @@ dotnet ef migrations add "added customers table migration"
 ```
 dotnet ef database update
 ```
+
+8. we now have customers table and membershiptype table. notice that we did not add membershiptype dbset in applicationdbcontext yet it created the migration and update due to the relationship between the tables "pulic MembershipType and MembershipId".
+
+note: membershipid is automatically detected as a forien key while membershiptype property is used for loading the related tables since a customer will have a membershiptype.
