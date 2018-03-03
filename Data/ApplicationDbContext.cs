@@ -6,11 +6,16 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Vidly.Models;
 using Vidly.Models.Customers;
+using Vidly.Models.Movies;
 namespace Vidly.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Customer> Customers { get; set; }
+        
+        public DbSet<Movie> Movies {get; set;}
+        
+        
         
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

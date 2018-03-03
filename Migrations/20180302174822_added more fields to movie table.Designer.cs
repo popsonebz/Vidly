@@ -11,9 +11,10 @@ using Vidly.Data;
 namespace Vidly.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180302174822_added more fields to movie table")]
+    partial class addedmorefieldstomovietable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -218,18 +219,6 @@ namespace Vidly.Migrations
                     b.ToTable("MembershipType");
                 });
 
-            modelBuilder.Entity("Vidly.Models.Movies.Genre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Genre");
-                });
-
             modelBuilder.Entity("Vidly.Models.Movies.Movie", b =>
                 {
                     b.Property<int>("Id")
@@ -237,9 +226,7 @@ namespace Vidly.Migrations
 
                     b.Property<DateTime>("DateAdded");
 
-                    b.Property<int?>("GenreId1");
-
-                    b.Property<int?>("GenreIdId");
+                    b.Property<string>("Genre");
 
                     b.Property<string>("Name");
 
@@ -248,10 +235,6 @@ namespace Vidly.Migrations
                     b.Property<DateTime>("ReleaseDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GenreId1");
-
-                    b.HasIndex("GenreIdId");
 
                     b.ToTable("Movies");
                 });
@@ -307,17 +290,6 @@ namespace Vidly.Migrations
                         .WithMany()
                         .HasForeignKey("MembershipTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Vidly.Models.Movies.Movie", b =>
-                {
-                    b.HasOne("Vidly.Models.Movies.Genre", "Genre")
-                        .WithMany()
-                        .HasForeignKey("GenreId1");
-
-                    b.HasOne("Vidly.Models.Movies.Genre", "GenreId")
-                        .WithMany()
-                        .HasForeignKey("GenreIdId");
                 });
 #pragma warning restore 612, 618
         }
