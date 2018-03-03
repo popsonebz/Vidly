@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Vidly.Models;
 using Vidly.Data;
 using Microsoft.EntityFrameworkCore;
+using Vidly.ViewModels;
+using Vidly.Models.Customers;
 
 namespace Vidly.Controllers
 {
@@ -45,8 +47,17 @@ namespace Vidly.Controllers
 
         public ActionResult New()
         {
-          //TODO: Implement Realistic Implementation
-          return View();
+          var membershipTypes = _context.MembershipType.ToList();
+          var viewModel = new CustomerViewModel { MembershipTypes = membershipTypes};
+          return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(Customer customer)
+        {
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Customers");
         }
     }
     
