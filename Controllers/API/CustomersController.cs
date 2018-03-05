@@ -64,7 +64,7 @@ namespace Vidly.Controllers.API
         }
          */
          // Post api/customers/
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Create([FromBody] CustomerDto customerDto)
         {
             if(!ModelState.IsValid)
@@ -76,6 +76,21 @@ namespace Vidly.Controllers.API
             _context.SaveChanges();
 
             return Ok();
+        }*/
+        [HttpPost]
+        public IActionResult Create([FromBody] CustomerDto customerDto)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
+            customerDto.Id = customer.Id;
+            //return Created(new Uri(Request + "/" + customer.Id), customerDto);
+            return Created($"/api/customers/{customer.Id}", customerDto);
+            //$"/api/episodes/{episode.EpisodeNumber}", newEpisode
         }
         /* 
         // Put api/customers/1
