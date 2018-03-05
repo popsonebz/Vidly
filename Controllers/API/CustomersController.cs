@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Vidly.Data;
 using Vidly.Models.Customers;
 using System.Net.Http;
+using Vidly.DTO;
+using AutoMapper;
 
 
 namespace Vidly.Controllers.API
@@ -22,16 +24,14 @@ namespace Vidly.Controllers.API
 
         }
         
-        static List<string> strings = new List<string>()
-        {
-            "customers0", "customers1","customers2"
-        };
         //private DatabaseContext db = new DatabaseContext();
          //GET api/customers
         [HttpGet]
-        public IEnumerable<Customer> GetCustomers()
+        //public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<CustomerDto> GetCustomers()
         {
-            return _context.Customers.ToList();
+            //return _context.Customers.ToList();
+            return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
         }
         
 
@@ -44,8 +44,11 @@ namespace Vidly.Controllers.API
             {
                 return NotFound();
             }
-            return new ObjectResult(customer);
+            //return new ObjectResult(customer);
+
+            return new ObjectResult(Mapper.Map<Customer, CustomerDto>(customer));
         }
+        /* 
         // Post api/customers/
         [HttpPost]
         public IActionResult Create([FromBody] Customer customer)
@@ -57,9 +60,24 @@ namespace Vidly.Controllers.API
             _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            return new NoContentResult();
+            return Ok();
         }
+         */
+         // Post api/customers/
+        [HttpPost]
+        public IActionResult Create([FromBody] CustomerDto customerDto)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
 
+            return Ok();
+        }
+        /* 
         // Put api/customers/1
         [HttpPut("{id}")]
         public IActionResult UpdateCustomer(int id, [FromBody] Customer customer)
@@ -81,7 +99,29 @@ namespace Vidly.Controllers.API
 
             _context.SaveChanges();
 
-            return new NoContentResult();
+            return Ok();
+        } */
+
+         // Put api/customers/1
+        [HttpPut("{id}")]
+        public IActionResult UpdateCustomer(int id, [FromBody] CustomerDto customerDto)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
+
+            if (customerInDb == null)
+            {
+                return NotFound();
+            }
+            //map source to destination
+            Mapper.Map(customerDto, customerInDb);
+
+            _context.SaveChanges();
+
+            return Ok();
         }
 
         // Delete api/customers/1
@@ -102,7 +142,7 @@ namespace Vidly.Controllers.API
 
             _context.SaveChanges();
 
-            return new NoContentResult();
+            return Ok();
         }
     }
 }
