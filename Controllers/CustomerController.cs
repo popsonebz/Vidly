@@ -22,7 +22,7 @@ namespace Vidly.Controllers
         {
             _context.Dispose();
         }
-
+ 
         public ViewResult Index() //vieresult is a subtype of actionresult
         {
             //var customers = _context.Customers; // remember, we defined Customers context in ApplicationDbContext.cs
@@ -55,6 +55,12 @@ namespace Vidly.Controllers
         [HttpPost]
         public ActionResult Create(Customer customer) //create or update customer
         {
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new CustomerViewModel { Customer = customer, MembershipTypes = _context.MembershipType.ToList()};
+                
+                return View("New", viewModel);
+            }
             if (customer.Id == 0)
             {
                 _context.Customers.Add(customer);

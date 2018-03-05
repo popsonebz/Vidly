@@ -188,7 +188,7 @@ namespace Vidly.Migrations
 
                     b.Property<bool>("IsSubscribedToNewsLetter");
 
-                    b.Property<byte>("MembershipTypeId");
+                    b.Property<int>("MembershipTypeId");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -203,7 +203,8 @@ namespace Vidly.Migrations
 
             modelBuilder.Entity("Vidly.Models.Customers.MembershipType", b =>
                 {
-                    b.Property<byte>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<byte>("DiscountRate");
 
@@ -237,21 +238,17 @@ namespace Vidly.Migrations
 
                     b.Property<DateTime>("DateAdded");
 
-                    b.Property<int?>("GenreId1");
-
-                    b.Property<int?>("GenreIdId");
+                    b.Property<int>("GenreId");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("NumberInStock");
+                    b.Property<byte>("NumberInStock");
 
                     b.Property<DateTime>("ReleaseDate");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GenreId1");
-
-                    b.HasIndex("GenreIdId");
+                    b.HasIndex("GenreId");
 
                     b.ToTable("Movies");
                 });
@@ -313,11 +310,8 @@ namespace Vidly.Migrations
                 {
                     b.HasOne("Vidly.Models.Movies.Genre", "Genre")
                         .WithMany()
-                        .HasForeignKey("GenreId1");
-
-                    b.HasOne("Vidly.Models.Movies.Genre", "GenreId")
-                        .WithMany()
-                        .HasForeignKey("GenreIdId");
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

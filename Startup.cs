@@ -42,6 +42,9 @@ namespace Vidly
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -58,6 +61,8 @@ namespace Vidly
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(name: "api", template: "api/{controller=Admin}");
+                
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

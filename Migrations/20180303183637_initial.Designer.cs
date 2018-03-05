@@ -11,8 +11,8 @@ using Vidly.Data;
 namespace Vidly.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180302152623_alter birthday column to customer to accept null")]
-    partial class alterbirthdaycolumntocustomertoacceptnull
+    [Migration("20180303183637_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -189,7 +189,7 @@ namespace Vidly.Migrations
 
                     b.Property<bool>("IsSubscribedToNewsLetter");
 
-                    b.Property<byte>("MembershipTypeId");
+                    b.Property<int>("MembershipTypeId");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -204,7 +204,8 @@ namespace Vidly.Migrations
 
             modelBuilder.Entity("Vidly.Models.Customers.MembershipType", b =>
                 {
-                    b.Property<byte>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<byte>("DiscountRate");
 
@@ -217,6 +218,40 @@ namespace Vidly.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MembershipType");
+                });
+
+            modelBuilder.Entity("Vidly.Models.Movies.Genre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genre");
+                });
+
+            modelBuilder.Entity("Vidly.Models.Movies.Movie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateAdded");
+
+                    b.Property<int>("GenreId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<byte>("NumberInStock");
+
+                    b.Property<DateTime>("ReleaseDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -269,6 +304,14 @@ namespace Vidly.Migrations
                     b.HasOne("Vidly.Models.Customers.MembershipType", "MembershipType")
                         .WithMany()
                         .HasForeignKey("MembershipTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Vidly.Models.Movies.Movie", b =>
+                {
+                    b.HasOne("Vidly.Models.Movies.Genre", "Genre")
+                        .WithMany()
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
